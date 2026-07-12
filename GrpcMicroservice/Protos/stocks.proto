@@ -1,0 +1,49 @@
+syntax = "proto3";
+
+option csharp_namespace = "StocksGrpc";
+
+package stocks;
+
+service StocksService {
+  rpc GetFilteredStocks (StockFilterRequest) returns (StockListResponse);
+}
+
+enum FuelTypeProto {
+  PETROL = 0;
+  DIESEL = 1;
+  CNG = 2;
+  ELECTRIC = 3;
+  HYBRID = 4;
+}
+
+enum SortTypeProto {
+  ASC = 0;
+  DESC = 1;
+}
+// CITY IN ID AND MAKE ID
+message StockFilterRequest {
+  optional double min_budget = 1;
+  optional double max_budget = 2;
+  repeated FuelTypeProto fuel_types = 3;
+  optional string city = 4;
+  optional string make_name = 5;
+  optional SortTypeProto sort_by = 6;
+  int32 page = 7;
+  int32 page_size = 8;
+}
+
+message StockProto {
+  int32 id = 1;
+  string make_name = 2;
+  string model_name = 3;
+  int32 make_year = 4;
+  optional string image_url = 5;
+  double price = 6;
+  FuelTypeProto fuel_type = 7;
+  int32 kms_driven = 8;
+  string city = 9;
+}
+
+message StockListResponse {
+  repeated StockProto stocks = 1;
+}
