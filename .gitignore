@@ -1,0 +1,33 @@
+# Build outputs
+**/bin/
+**/obj/
+**/out/
+
+# Visual Studio / VS Code
+.vs/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet
+*.nupkg
+*.snupkg
+.nuget/
+packages/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment / secrets
+appsettings.Development.local.json
+secrets.json
+
+# Temporary files
+*.tmp
+*.temp
