@@ -7,7 +7,7 @@ namespace CarMarketplace.Api.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 
-/// GET /api/stocks/search?budget=10000-200000&city=Mumbai&makeName=Maruti&fuelTypes=0,1&sortBy=0&page=1&pageSize=8
+/// GET /api/stocks/search?budget=10000-200000&cityId=3&makeId=7&fuelTypes=0,1&sortBy=0&page=1&pageSize=8
 public class StocksController : ControllerBase
 {
     private readonly IStockService _stockService;
@@ -19,15 +19,15 @@ public class StocksController : ControllerBase
     [HttpGet("search")]
     public async Task<IActionResult> GetFiltered(
         [FromQuery] string? budget,
-        [FromQuery] string? city,
-        [FromQuery] string? makeName,
+        [FromQuery] int? cityId,
+        [FromQuery] int? makeId,
         [FromQuery] string? fuelTypes,
         [FromQuery] int? sortBy,
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 8)
     {
         var (isValid, errorMessage, filtersDto) = StockSearchValidator.Validate(
-            budget, city, makeName, fuelTypes, sortBy, page, pageSize);
+            budget, cityId, makeId, fuelTypes, sortBy, page, pageSize);
 
         if (!isValid)
         {

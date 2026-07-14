@@ -7,8 +7,8 @@ public static class StockSearchValidator
 {
     public static (bool IsValid, string? ErrorMessage, FiltersDto? Filters) Validate(
         string? budget,
-        string? city,
-        string? makeName,
+        int? cityId,
+        int? makeId,
         string? fuelTypes,
         int? sortBy,
         int page,
@@ -22,6 +22,16 @@ public static class StockSearchValidator
         if (pageSize < 1 || pageSize > 50)
         {
             return (false, "pageSize must be between 1 and 50.", null);
+        }
+
+        if (cityId.HasValue && cityId.Value <= 0)
+        {
+            return (false, "cityId must be a positive integer.", null);
+        }
+
+        if (makeId.HasValue && makeId.Value <= 0)
+        {
+            return (false, "makeId must be a positive integer.", null);
         }
 
         List<decimal?> budgetList;
@@ -63,8 +73,8 @@ public static class StockSearchValidator
         var filtersDto = new FiltersDto
         {
             Budget = budgetList,
-            City = city,
-            MakeName = makeName,
+            CityId = cityId,
+            MakeId = makeId,
             FuelTypes = fuelTypesList,
             SortBy = sortBy,
             Page = page,

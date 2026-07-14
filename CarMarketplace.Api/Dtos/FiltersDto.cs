@@ -7,9 +7,9 @@ public class FiltersDto
 
     public List<int> FuelTypes { get; set; } = new List<int>();
 
-    public string? City { get; set; }
+    public int? CityId { get; set; }
 
-    public string? MakeName { get; set; }
+    public int? MakeId { get; set; }
 
     public int? SortBy { get; set; }
 

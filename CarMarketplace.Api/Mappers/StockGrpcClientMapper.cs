@@ -9,10 +9,15 @@ public static partial class StockGrpcClientMapper
 {
     // ---- Filters -> StockFilterRequest ----
 
+    [MapperIgnoreSource(nameof(Filters.MinBudget))]
+    [MapperIgnoreSource(nameof(Filters.MaxBudget))]
+    [MapperIgnoreSource(nameof(Filters.CityId))]
+    [MapperIgnoreSource(nameof(Filters.MakeId))]
+    [MapperIgnoreSource(nameof(Filters.SortBy))]
     [MapperIgnoreTarget(nameof(StockFilterRequest.MinBudget))]
     [MapperIgnoreTarget(nameof(StockFilterRequest.MaxBudget))]
-    [MapperIgnoreTarget(nameof(StockFilterRequest.City))]
-    [MapperIgnoreTarget(nameof(StockFilterRequest.MakeName))]
+    [MapperIgnoreTarget(nameof(StockFilterRequest.CityId))]
+    [MapperIgnoreTarget(nameof(StockFilterRequest.MakeId))]
     [MapperIgnoreTarget(nameof(StockFilterRequest.SortBy))]
     private static partial StockFilterRequest ToRequestCore(Filters filters);
 
@@ -30,14 +35,14 @@ public static partial class StockGrpcClientMapper
             request.MaxBudget = (double)filters.MaxBudget.Value;
         }
 
-        if (filters.City is not null)
+        if (filters.CityId.HasValue)
         {
-            request.City = filters.City;
+            request.CityId = filters.CityId.Value;
         }
 
-        if (filters.MakeName is not null)
+        if (filters.MakeId.HasValue)
         {
-            request.MakeName = filters.MakeName;
+            request.MakeId = filters.MakeId.Value;
         }
 
         if (filters.SortBy.HasValue)
