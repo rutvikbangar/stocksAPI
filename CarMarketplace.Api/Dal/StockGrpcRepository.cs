@@ -1,6 +1,7 @@
 using CarMarketplace.Api.Model;
 using Grpc.Core;
 using StocksGrpc;
+using CarMarketplace.Api.Mappers;
 
 namespace CarMarketplace.Api.Dal;
 
@@ -15,70 +16,16 @@ public class StockGrpcRepository : IStockRepository
 
     public async Task<IEnumerable<Stock>> GetFilteredStocksAsync(Filters filters)
     {
-        var request = MapToRequest(filters);
+        var request = StockGrpcClientMapper.ToRequest(filters);
 
         try
         {
             var response = await _grpcClient.GetFilteredStocksAsync(request);
-            return response.Stocks.Select(MapToStock);
+            return response.Stocks.Select(StockGrpcClientMapper.ToStock);
         }
         catch (RpcException ex)
         {
             throw new StockRepositoryException("Failed to fetch stocks from Service.", ex);
         }
-    }
-
-    private static StockFilterRequest MapToRequest(Filters filters)
-    {
-        var request = new StockFilterRequest
-        {
-            Page = filters.Page,
-            PageSize = filters.PageSize,
-        };
-
-        request.FuelTypes.AddRange(filters.FuelTypes.Select(f => (FuelTypeProto)(int)f));
-
-        if (filters.MinBudget.HasValue)
-        {
-            request.MinBudget = (double)filters.MinBudget.Value;
-        }
-
-        if (filters.MaxBudget.HasValue)
-        {
-            request.MaxBudget = (double)filters.MaxBudget.Value;
-        }
-
-        if (filters.City is not null)
-        {
-            request.City = filters.City;
-        }
-
-        if (filters.MakeName is not null)
-        {
-            request.MakeName = filters.MakeName;
-        }
-
-        if (filters.SortBy.HasValue)
-        {
-            request.SortBy = (SortTypeProto)(int)filters.SortBy.Value;
-        }
-
-        return request;
-    }
-
-    private static Stock MapToStock(StockProto proto)
-    {
-        return new Stock
-        {
-            Id = proto.Id,
-            MakeName = proto.MakeName,
-            ModelName = proto.ModelName,
-            MakeYear = proto.MakeYear,
-            ImageUrl = proto.HasImageUrl ? proto.ImageUrl : null,
-            Price = (decimal)proto.Price,
-            FuelType = (FuelType)(int)proto.FuelType,
-            KmsDriven = proto.KmsDriven,
-            City = proto.City,
-        };
     }
 }

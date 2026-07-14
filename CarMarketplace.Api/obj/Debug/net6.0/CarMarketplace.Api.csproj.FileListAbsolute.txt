@@ -35,6 +35,7 @@ J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.Ass
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.csproj.CoreCompileInputs.cache
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.MvcApplicationPartsAssemblyInfo.cs
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.MvcApplicationPartsAssemblyInfo.cache
+J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.sourcelink.json
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\rjimswa.dswa.cache.json
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\rjsmrazor.dswa.cache.json
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\rjsmcshtml.dswa.cache.json
@@ -50,4 +51,3 @@ J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\refint\CarMarketplace.
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.pdb
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.genruntimeconfig.cache
 J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\ref\CarMarketplace.Api.dll
-J:\Carwale\assignment\CarMarketplace.Api\obj\Debug\net6.0\CarMarketplace.Api.sourcelink.json

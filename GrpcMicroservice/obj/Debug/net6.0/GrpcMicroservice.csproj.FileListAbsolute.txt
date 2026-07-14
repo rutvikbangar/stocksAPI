@@ -42,3 +42,4 @@ J:\Carwale\assignment\GrpcMicroservice\obj\Debug\net6.0\refint\GrpcMicroservice.
 J:\Carwale\assignment\GrpcMicroservice\obj\Debug\net6.0\GrpcMicroservice.pdb
 J:\Carwale\assignment\GrpcMicroservice\obj\Debug\net6.0\GrpcMicroservice.genruntimeconfig.cache
 J:\Carwale\assignment\GrpcMicroservice\obj\Debug\net6.0\ref\GrpcMicroservice.dll
+J:\Carwale\assignment\GrpcMicroservice\bin\Debug\net6.0\Riok.Mapperly.Abstractions.dll

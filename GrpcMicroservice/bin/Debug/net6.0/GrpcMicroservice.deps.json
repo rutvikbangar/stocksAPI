@@ -10,7 +10,8 @@
         "dependencies": {
           "Dapper": "2.1.79",
           "Grpc.AspNetCore": "2.40.0",
-          "MySqlConnector": "2.6.1"
+          "MySqlConnector": "2.6.1",
+          "Riok.Mapperly": "4.3.1"
         },
         "runtime": {
           "GrpcMicroservice.dll": {}
@@ -147,6 +148,14 @@
           }
         }
       },
+      "Riok.Mapperly/4.3.1": {
+        "runtime": {
+          "lib/netstandard2.0/Riok.Mapperly.Abstractions.dll": {
+            "assemblyVersion": "4.3.1.0",
+            "fileVersion": "4.3.1.0"
+          }
+        }
+      },
       "System.Diagnostics.DiagnosticSource/8.0.1": {
         "runtime": {
           "lib/net6.0/System.Diagnostics.DiagnosticSource.dll": {
@@ -253,6 +262,13 @@
       "sha512": "sha512-MzNSfnHWBc0Mo3zVbYxG+556zuex9obs8NYtwcPCwFahel40e49stH+osjX4k/doEHp4LT/zTtGdax4nlGWhcw==",
       "path": "mysqlconnector/2.6.1",
       "hashPath": "mysqlconnector.2.6.1.nupkg.sha512"
+    },
+    "Riok.Mapperly/4.3.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oSE+OVLHyiojrws0QVbQaAT2YKsYbyHqJXPdV7EhGseR/dYgeWS2x1T5qY5I4E+RJkJqMSG+FyZOq4SljWgJWQ==",
+      "path": "riok.mapperly/4.3.1",
+      "hashPath": "riok.mapperly.4.3.1.nupkg.sha512"
     },
     "System.Diagnostics.DiagnosticSource/8.0.1": {
       "type": "package",

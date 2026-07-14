@@ -25,6 +25,7 @@ public class StockRepository : IStockRepository
     public async Task<IEnumerable<Stock>> GetFilteredStocksAsync(Filters filters)
     {
         var connectionString = _configuration.GetConnectionString("StocksDb");
+        // DI
         using var connection = new MySqlConnection(connectionString);
 
         var (whereClause, parameters) = BuildWhereClause(filters);
