@@ -7,25 +7,23 @@ using MySqlConnector;
 
 public class StockRepository : IStockRepository
 {
-    private readonly IConfiguration _configuration;
+    private readonly IDbConnectionFactory _connectionFactory;
 
-    public StockRepository(IConfiguration configuration)
+    public StockRepository(IDbConnectionFactory connectionFactory)
     {
-        _configuration = configuration;
+        _connectionFactory = connectionFactory;
     }
 
     public async Task<IEnumerable<Stock>> GetAllStocksAsync()
     {
-        var connectionString = _configuration.GetConnectionString("StocksDb");
-        using var connection = new MySqlConnection(connectionString);
+        using var connection = _connectionFactory.CreateConnection();
         return await connection.QueryAsync<Stock>(BaseSelectSql());
     }
 
     public async Task<IEnumerable<Stock>> GetFilteredStocksAsync(Filters filters)
     {
         /// DI implement
-        var connectionString = _configuration.GetConnectionString("StocksDb");
-        using var connection = new MySqlConnection(connectionString);
+        using var connection = _connectionFactory.CreateConnection();
 
         var (whereClause, parameters) = BuildWhereClause(filters);
 
