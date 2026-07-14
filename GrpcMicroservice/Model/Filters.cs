@@ -8,9 +8,9 @@ public class Filters
 
     public List<FuelType> FuelTypes { get; set; } = new List<FuelType>();
 
-    public string? City { get; set; }
+    public int? CityId { get; set; }
 
-    public string? MakeName { get; set; }
+    public int? MakeId { get; set; }
 
     public SortType? SortBy { get; set; }
 
@@ -18,5 +18,3 @@ public class Filters
 
     public int PageSize {get;set;} = 8;
 }
-
-

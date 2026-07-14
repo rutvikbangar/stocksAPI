@@ -20,13 +20,12 @@ enum SortTypeProto {
   ASC = 0;
   DESC = 1;
 }
-// CITY IN ID AND MAKE ID
 message StockFilterRequest {
   optional double min_budget = 1;
   optional double max_budget = 2;
   repeated FuelTypeProto fuel_types = 3;
-  optional string city = 4;
-  optional string make_name = 5;
+  optional int32 city_id = 4;
+  optional int32 make_id = 5;
   optional SortTypeProto sort_by = 6;
   int32 page = 7;
   int32 page_size = 8;

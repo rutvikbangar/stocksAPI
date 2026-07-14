@@ -18,19 +18,18 @@ public class StockRepository : IStockRepository
     {
         var connectionString = _configuration.GetConnectionString("StocksDb");
         using var connection = new MySqlConnection(connectionString);
-        var sql = "SELECT * FROM Stocks";
-        return await connection.QueryAsync<Stock>(sql);
+        return await connection.QueryAsync<Stock>(BaseSelectSql());
     }
 
     public async Task<IEnumerable<Stock>> GetFilteredStocksAsync(Filters filters)
     {
+        /// DI implement
         var connectionString = _configuration.GetConnectionString("StocksDb");
-        // DI
         using var connection = new MySqlConnection(connectionString);
 
         var (whereClause, parameters) = BuildWhereClause(filters);
 
-        var sql = new StringBuilder("SELECT * FROM Stocks");
+        var sql = new StringBuilder(BaseSelectSql());
         sql.Append(whereClause);
         sql.Append(BuildOrderByClause(filters.SortBy));
         sql.Append(" LIMIT @PageSize OFFSET @Offset");
@@ -48,7 +47,25 @@ public class StockRepository : IStockRepository
         }
     }
 
-  
+    private static string BaseSelectSql()
+    {
+        return @"
+            SELECT
+                s.Id,
+                mk.Name AS MakeName,
+                md.Name AS ModelName,
+                s.MakeYear,
+                s.ImageUrl,
+                s.Price,
+                s.FuelTypeId AS FuelType,
+                s.KmsDriven,
+                c.Name AS City
+            FROM Stocks s
+            JOIN Makes mk ON mk.Id = s.MakeId
+            JOIN Models md ON md.Id = s.ModelId
+            JOIN Cities c ON c.Id = s.CityId";
+    }
+
     private static (string Clause, DynamicParameters Parameters) BuildWhereClause(Filters filters)
     {
         var conditions = new List<string>();
@@ -56,32 +73,32 @@ public class StockRepository : IStockRepository
 
         if (filters.MinBudget.HasValue)
         {
-            conditions.Add("Price >= @MinBudget");
+            conditions.Add("s.Price >= @MinBudget");
             parameters.Add("MinBudget", filters.MinBudget.Value);
         }
 
         if (filters.MaxBudget.HasValue)
         {
-            conditions.Add("Price <= @MaxBudget");
+            conditions.Add("s.Price <= @MaxBudget");
             parameters.Add("MaxBudget", filters.MaxBudget.Value);
         }
 
         if (filters.FuelTypes is { Count: > 0 })
         {
-            conditions.Add("FuelType IN @FuelTypes");
+            conditions.Add("s.FuelTypeId IN @FuelTypes");
             parameters.Add("FuelTypes", filters.FuelTypes.Select(f => (int)f));
         }
 
-        if (!string.IsNullOrWhiteSpace(filters.City))
+        if (filters.CityId.HasValue)
         {
-            conditions.Add("City = @City");
-            parameters.Add("City", filters.City);
+            conditions.Add("s.CityId = @CityId");
+            parameters.Add("CityId", filters.CityId.Value);
         }
 
-        if (!string.IsNullOrWhiteSpace(filters.MakeName))
+        if (filters.MakeId.HasValue)
         {
-            conditions.Add("MakeName = @MakeName");
-            parameters.Add("MakeName", filters.MakeName);
+            conditions.Add("s.MakeId = @MakeId");
+            parameters.Add("MakeId", filters.MakeId.Value);
         }
 
         var clause = conditions.Count > 0
@@ -94,7 +111,7 @@ public class StockRepository : IStockRepository
     private static string BuildOrderByClause(SortType? sortBy)
     {
         return sortBy == SortType.Desc
-            ? " ORDER BY Price DESC"
-            : " ORDER BY Price ASC";
+            ? " ORDER BY s.Price DESC"
+            : " ORDER BY s.Price ASC";
     }
 }
