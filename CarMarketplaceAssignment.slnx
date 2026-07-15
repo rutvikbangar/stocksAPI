@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="CarMarketplace.Api/CarMarketplace.Api.csproj" />
+  <Project Path="CarMarketplace.Tests/CarMarketplace.Tests.csproj" />
+  <Project Path="GrpcMicroservice/GrpcMicroservice.csproj" />
+</Solution>
