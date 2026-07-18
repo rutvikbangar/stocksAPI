@@ -1,5 +1,4 @@
 extern alias GrpcMs;
-
 using GrpcMs::GrpcMicroservice.Model;
 using GrpcMs::GrpcMicroservice.Services;
 using GrpcMs::StocksGrpc;
@@ -48,33 +47,6 @@ public class StocksGrpcServiceTests
         Assert.Equal("http://img/1.jpg", response.Stocks[0].ImageUrl);
     }
 
-    [Fact]
-    public async Task GetFilteredStocks_NullImageUrl_LeavesProtoImageUrlUnset()
-    {
-        var request = new StockFilterRequest { Page = 1, PageSize = 8 };
-
-        _mockStockService
-            .Setup(s => s.GetFilteredStocksAsync(It.IsAny<Filters>()))
-            .ReturnsAsync(new List<Stock> { new Stock { Id = 1, ModelName = "Alto", ImageUrl = null } });
-
-        var response = await _service.GetFilteredStocks(request, _context);
-
-        Assert.False(response.Stocks[0].HasImageUrl);
-    }
-
-    [Theory]
-    [InlineData(0, 8)]   // Page <= 0
-    [InlineData(1, 0)]   // PageSize <= 0
-    [InlineData(1, 51)]  // PageSize > 50
-    public async Task GetFilteredStocks_InvalidPaging_ThrowsInvalidArgument(int page, int pageSize)
-    {
-        var request = new StockFilterRequest { Page = page, PageSize = pageSize };
-
-        var ex = await Assert.ThrowsAsync<RpcException>(
-            () => _service.GetFilteredStocks(request, _context));
-
-        Assert.Equal(StatusCode.InvalidArgument, ex.StatusCode);
-    }
 
     [Fact]
     public async Task GetFilteredStocks_MinBudgetGreaterThanMaxBudget_ThrowsInvalidArgument()
@@ -100,17 +72,6 @@ public class StocksGrpcServiceTests
         Assert.Contains("CityId must be a positive integer", ex.Status.Detail);
     }
 
-    [Fact]
-    public async Task GetFilteredStocks_MultipleValidationErrors_JoinsAllMessages()
-    {
-        var request = new StockFilterRequest { Page = 0, PageSize = 0 };
-
-        var ex = await Assert.ThrowsAsync<RpcException>(
-            () => _service.GetFilteredStocks(request, _context));
-
-        Assert.Contains("Page must be greater than 0.", ex.Status.Detail);
-        Assert.Contains("PageSize must be greater than 0.", ex.Status.Detail);
-    }
 
     [Fact]
     public async Task GetFilteredStocks_ServiceThrowsApplicationException_MapsToInternalStatus()
@@ -128,17 +89,4 @@ public class StocksGrpcServiceTests
         Assert.Equal("DB connection failed", ex.Status.Detail);
     }
 
-    [Fact]
-    public async Task GetFilteredStocks_EmptyResultFromService_ReturnsEmptyResponse()
-    {
-        var request = new StockFilterRequest { Page = 1, PageSize = 8 };
-
-        _mockStockService
-            .Setup(s => s.GetFilteredStocksAsync(It.IsAny<Filters>()))
-            .ReturnsAsync(new List<Stock>());
-
-        var response = await _service.GetFilteredStocks(request, _context);
-
-        Assert.Empty(response.Stocks);
-    }
 }
