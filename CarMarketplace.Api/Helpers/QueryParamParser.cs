@@ -2,36 +2,7 @@ namespace CarMarketplace.Api.Helpers;
 
 public static class QueryParamParser
 {
-    public static int? ParseNullableInt(string? raw, string paramName)
-    {
-        if (string.IsNullOrWhiteSpace(raw))
-        {
-            return null;
-        }
-
-        if (!int.TryParse(raw.Trim(), out var value))
-        {
-            throw new FormatException($"{paramName} must be a valid integer: '{raw}'.");
-        }
-
-        return value;
-    }
-
-    public static int ParseIntWithDefault(string? raw, string paramName, int defaultValue)
-    {
-        if (string.IsNullOrWhiteSpace(raw))
-        {
-            return defaultValue;
-        }
-
-        if (!int.TryParse(raw.Trim(), out var value))
-        {
-            throw new FormatException($"{paramName} must be a valid integer: '{raw}'.");
-        }
-
-        return value;
-    }
-
+    
     public static List<decimal?> ParseBudget(string? budgetParam)
     {
         if (string.IsNullOrWhiteSpace(budgetParam))

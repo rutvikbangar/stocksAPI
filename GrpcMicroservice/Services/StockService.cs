@@ -1,6 +1,7 @@
 namespace GrpcMicroservice.Services;
 using GrpcMicroservice.Model;
 using GrpcMicroservice.Repository;
+using GrpcMicroservice.Helpers;
 
 public class StockService : IStockService
 {
@@ -13,7 +14,11 @@ public class StockService : IStockService
 
     public async Task<IEnumerable<Stock>> GetFilteredStocksAsync(Filters filters)
     {
-        NormalizeFilters(filters);
+        var (isValid, errorMessage) = FiltersValidator.Validate(filters);
+        if (!isValid)
+        {
+            throw new StockServiceValidationException(errorMessage!);
+        }
 
         try
         {
@@ -22,19 +27,6 @@ public class StockService : IStockService
         catch (ApplicationException ex)
         {
             throw new Exception("Failed to retrieve filtered stocks.", ex);
-        }
-    }
-
-    private static void NormalizeFilters(Filters filters)
-    {
-        if (filters.Page < 1)
-        {
-            filters.Page = 1;
-        }
-
-        if (filters.PageSize is < 1 or > 50)
-        {
-            filters.PageSize = 8;
         }
     }
 }

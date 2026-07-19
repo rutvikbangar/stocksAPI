@@ -4,6 +4,7 @@ using System.Text;
 using Dapper;
 using GrpcMicroservice.Model;
 using MySqlConnector;
+using GrpcMicroservice.Helpers;
 
 public class StockRepository : IStockRepository
 {
@@ -22,6 +23,11 @@ public class StockRepository : IStockRepository
 
     public async Task<IEnumerable<Stock>> GetFilteredStocksAsync(Filters filters)
     {
+        var (isValid, errorMessage) = FiltersValidator.Validate(filters);
+        if (!isValid)
+        {
+            throw new ArgumentException(errorMessage, nameof(filters));
+        }
         /// DI implement
         using var connection = _connectionFactory.CreateConnection();
 

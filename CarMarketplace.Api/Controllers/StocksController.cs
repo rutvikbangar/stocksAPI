@@ -18,13 +18,13 @@ public class StocksController : ControllerBase
 
     [HttpGet("search")]
     public async Task<IActionResult> GetFiltered(
-    [FromQuery] string? budget,
-    [FromQuery] string? cityId,
-    [FromQuery] string? makeId,
-    [FromQuery] string? fuelTypes,
-    [FromQuery] string? sortBy,
-    [FromQuery] string? page,
-    [FromQuery] string? pageSize)
+        [FromQuery] string? budget,
+        [FromQuery] int? cityId,
+        [FromQuery] int? makeId,
+        [FromQuery] string? fuelTypes,
+        [FromQuery] int? sortBy,
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 8)
     {
         var (isValid, errorMessage, filtersDto) = StockSearchValidator.Validate(
             budget, cityId, makeId, fuelTypes, sortBy, page, pageSize);

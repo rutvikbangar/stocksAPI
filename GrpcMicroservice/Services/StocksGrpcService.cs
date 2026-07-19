@@ -1,4 +1,5 @@
 namespace GrpcMicroservice.Services;
+
 using GrpcMicroservice.Model;
 using Grpc.Core;
 using StocksGrpc;
@@ -35,6 +36,10 @@ public class StocksGrpcService : StocksGrpc.StocksService.StocksServiceBase
             response.Stocks.AddRange(stocks.Select(MapToStockProto));
 
             return response;
+        }
+        catch (StockServiceValidationException ex)
+        {
+            throw new RpcException(new Status(StatusCode.InvalidArgument, ex.Message));
         }
         catch (ApplicationException ex)
         {
