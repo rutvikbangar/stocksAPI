@@ -2,7 +2,7 @@ using CarMarketplace.Api.Dal;
 using CarMarketplace.Api.Dtos;
 using CarMarketplace.Api.Mappers;
 using CarMarketplace.Api.Model;
-
+using CarMarketplace.Api.Helpers;
 namespace CarMarketplace.Api.Bal;
 
 public class StockService : IStockService
@@ -23,6 +23,12 @@ public class StockService : IStockService
 
     public async Task<IEnumerable<StockDto>> GetFilteredStocksAsync(FiltersDto dto)
     {
+        var (isValid, errorMessage) = StockSearchValidator.ValidateFiltersDto(dto);
+        if (!isValid)
+        {
+            throw new StockValidationException(errorMessage!);
+        }
+        
         Filters filters = _filtersMapper.ToFilters(dto);
 
         IEnumerable<Stock> stocks;
