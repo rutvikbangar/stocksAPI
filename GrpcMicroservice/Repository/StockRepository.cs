@@ -28,7 +28,6 @@ public class StockRepository : IStockRepository
         {
             throw new ArgumentException(errorMessage, nameof(filters));
         }
-        /// DI implement
         using var connection = _connectionFactory.CreateConnection();
 
         var (whereClause, parameters) = BuildWhereClause(filters);

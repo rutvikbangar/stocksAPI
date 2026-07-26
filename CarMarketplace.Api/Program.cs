@@ -15,7 +15,6 @@ builder.Services.AddGrpcClient<StocksGrpc.StocksService.StocksServiceClient>(opt
 
 builder.Services.AddScoped<IStockRepository, StockGrpcRepository>();
 builder.Services.AddScoped<IStockService, StockService>();
-builder.Services.AddSingleton<FiltersMapper>();
 builder.Services.AddSingleton<StockMapper>();
 
 var app = builder.Build();

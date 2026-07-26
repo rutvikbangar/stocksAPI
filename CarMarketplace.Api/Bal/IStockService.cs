@@ -5,5 +5,5 @@ namespace CarMarketplace.Api.Bal;
 
 public interface IStockService
 {
-    Task<IEnumerable<StockDto>> GetFilteredStocksAsync(FiltersDto dto);
+    Task<IEnumerable<StockDto>> GetFilteredStocksAsync(Filters dto);
 }

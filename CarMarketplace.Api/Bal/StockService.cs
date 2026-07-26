@@ -12,25 +12,21 @@ public class StockService : IStockService
 
     private readonly IStockRepository _stockRepository;
     private readonly StockMapper _stockMapper;
-    private readonly FiltersMapper _filtersMapper;
 
-    public StockService(IStockRepository stockRepository, StockMapper stockMapper, FiltersMapper filtersMapper)
+    public StockService(IStockRepository stockRepository, StockMapper stockMapper)
     {
         _stockRepository = stockRepository;
         _stockMapper = stockMapper;
-        _filtersMapper = filtersMapper;
     }
 
-    public async Task<IEnumerable<StockDto>> GetFilteredStocksAsync(FiltersDto dto)
+    public async Task<IEnumerable<StockDto>> GetFilteredStocksAsync(Filters filters)
     {
-        var (isValid, errorMessage) = StockSearchValidator.ValidateFiltersDto(dto);
+        var (isValid, errorMessage) = FiltersValidator.Validate(filters);
         if (!isValid)
         {
             throw new StockValidationException(errorMessage!);
         }
         
-        Filters filters = _filtersMapper.ToFilters(dto);
-
         IEnumerable<Stock> stocks;
         try
         {
